@@ -45,7 +45,7 @@ regd_users.post("/login", (req,res) => {
     req.session.authorization = {
       accessToken, username
     }
-    return res.status(200).send("User successfully logged in");
+    return res.status(200).send("Customer successfully logged in");
   }else{
     return res.status(208).json({message: "Invalid login details. Check your username and password"});
   }
@@ -63,11 +63,11 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   if(bookReviews[user]){
     bookReviews[user]['review'] = reviewText;
     //filterBook['reviews'] = bookReviews;
-    return res.status(200).send("Your review has been updated.");
+    return res.status(200).send("The review for book with ISBN: "+isbn+" has been updated.");
   }
 
   bookReviews[user] = {"review": reviewText};
-  return res.status(200).send("Your review has been added.");
+  return res.status(200).send("The review for book with ISBN: "+isbn+" has been added.");
 });
 
 // Delete book review
@@ -79,7 +79,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
   let bookReviews = filterBook['reviews'];
   if(bookReviews[user]){
     delete bookReviews[user];
-    return res.status(200).send("Your review has been removed.");
+    return res.status(200).send("Review for ISBN: "+isbn+" posted by user: "+user+" has been deleted.");
   }
   return res.status(403).send("You do not have a review to delete.");
 });

@@ -5,17 +5,6 @@ let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
 
-const doesExist = (username) => {
-  let fileterUser = users.filter((user) => {
-    return user.username == username;
-  });
-
-  if(fileterUser.length > 0){
-    return true;
-  }else{
-    return false;
-  }
-}
 
 
 public_users.post("/register", (req,res) => {
@@ -24,7 +13,7 @@ public_users.post("/register", (req,res) => {
 
   //check if username and password are valid
   if(username && password){
-    if(!doesExist(username)){
+    if(!isValid(username)){
       users.push({"username":username, "password":password});
       return res.status(200).json({message: username + " has been successfully registered."});
     }else{
@@ -89,8 +78,6 @@ public_users.get('/review/:isbn',function (req, res) {
   let filterBooks = books[isbn];
   if(filterBooks){
     let reviews = filterBooks['reviews'];
-    console.log(filterBooks);
-    console.log(reviews);
     if(reviews){
       res.send(JSON.stringify(reviews, null, 4));
     }else{
